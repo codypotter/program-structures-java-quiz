@@ -1,0 +1,6 @@
+#this is a comment
+//is is a different type of comment. The following line is blank
+    
+SA|2|What is the capital of Italy|Rome
+TF|1|The capital of Germany is Munich|False
+MC|1|What is the capital of Ukraine|Minsk:Kyiv:Warsaw:Chisinau|B
