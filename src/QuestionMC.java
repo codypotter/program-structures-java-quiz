@@ -18,7 +18,6 @@ public class QuestionMC extends Question {
     /*-----------------------------------------------------------------------------*/
     /**
      * This method constructs a multiple choice question.
-     * @return Nothing.
      * @param answer is the correct answer for the question.
      * @param text is the question text.
      * @param choices is the unformatted string of multiple choices.

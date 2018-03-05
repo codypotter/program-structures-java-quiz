@@ -14,9 +14,9 @@ public class QuestionSA extends Question {
     /*-----------------------------------------------------------------------------*/
     /**
      * This method constructs a short answer question.
-     * @param answer
-     * @param text
-     * @param number
+     * @param answer the correct answer
+     * @param text the question text
+     * @param number the question number
      */
     public QuestionSA(String answer, String text, int number) {
         this.answer = answer;

@@ -41,6 +41,8 @@ public class QuizApp {
             Quiz quiz = new Quiz(arg);
             quiz.deliverQuiz(false);
 
+            outputScore(quiz);
+
             while (quiz.getIncorrectCount() != 0) {
                 Scanner reader = new Scanner(System.in);
                 System.out.println("Do you want to try the questions you missed again? (y/n)");
@@ -48,6 +50,7 @@ public class QuizApp {
 
                 if (playAgainAnswer.equals("y") || playAgainAnswer.equals("yes")) {
                     quiz.deliverQuiz(true);
+                    outputScore(quiz);
                 } else {
                     System.out.println("Thanks for playing! Exiting...");
                 }
@@ -55,5 +58,12 @@ public class QuizApp {
         } else {
             throw new FileNotFoundException("Invalid argument. Usage: java quiz [datafile] ");
         }
+    }
+
+    private static void outputScore(Quiz quiz) {
+        int correctCount = quiz.getCorrectCount();
+        int totalQuestions = quiz.totalQuestions();
+
+        System.out.println("You got " + correctCount + " out of " + totalQuestions + ". ");
     }
 }

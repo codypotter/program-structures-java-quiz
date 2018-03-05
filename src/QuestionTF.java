@@ -14,9 +14,9 @@ public class QuestionTF extends Question {
     /*-----------------------------------------------------------------------------*/
     /**
      * This method constructs a true false question.
-     * @param answer
-     * @param text
-     * @param number
+     * @param answer the correct answer
+     * @param text the question text
+     * @param number the question number
      */
     public QuestionTF(String answer, String text, int number) {
         this.answer = answer;

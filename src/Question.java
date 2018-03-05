@@ -25,8 +25,6 @@ public abstract class Question {
 
     /**
      * This is the default constructor for the Question class.
-     * @return Nothing.
-     * @throws IOException Nothing.
      */
     public Question() {
         text = "";
@@ -38,8 +36,6 @@ public abstract class Question {
     /*-----------------------------------------------------------------------------*/
     /**
      * This method is a setter for correct.
-     * @return Nothing.
-     * @throws IOException Nothing.
      */
     public void markCorrect() {
         correct = true;
@@ -49,7 +45,6 @@ public abstract class Question {
     /**
      * This method is a getter for correct.
      * @return correct.
-     * @throws IOException Nothing.
      */
     public boolean isCorrect() {
         return correct;
@@ -61,7 +56,6 @@ public abstract class Question {
      * file.
      * @param userAnswer The input string the user entered.
      * @return True if answer is correct, false otherwise.
-     * @throws IOException Nothing.
      */
     public boolean checkAnswer(String userAnswer) {
         String formattedText = userAnswer.toLowerCase();
