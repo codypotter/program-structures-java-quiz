@@ -1,43 +1,79 @@
+import java.io.IOException;
 
+/**
+ * The Quiz program implements an application that
+ * quizzes the user with a given data file.
+ *
+ * This is the base class for all quiz questions. It stores
+ * all data related to questions including the question number,
+ * question, and correct answer.
+ *
+ * @author  Cody Potter
+ * @version 1.0
+ * @since   2018-03-04
+ */
 public abstract class Question {
 
     String text;
     String answer;
-    boolean correct = false;
+    boolean correct;
+    int number;
 
     public abstract void showQuestion();
 
-    public Question(String text, String answer) {
-        this.text = text;
-        this.answer = answer;
-        this.correct = false;
-    }
+    /*-----------------------------------------------------------------------------*/
 
+    /**
+     * This is the default constructor for the Question class.
+     * @return Nothing.
+     * @throws IOException Nothing.
+     */
     public Question() {
         text = "";
         answer = "";
         correct = false;
+        number = 0;
     }
 
+    /*-----------------------------------------------------------------------------*/
+    /**
+     * This method is a setter for correct.
+     * @return Nothing.
+     * @throws IOException Nothing.
+     */
     public void markCorrect() {
         correct = true;
     }
 
+    /*-----------------------------------------------------------------------------*/
+    /**
+     * This method is a getter for correct.
+     * @return correct.
+     * @throws IOException Nothing.
+     */
     public boolean isCorrect() {
         return correct;
     }
 
-    public boolean checkAnswer(String givenAnswer) {
-        String formattedText = givenAnswer.toLowerCase();
+    /*-----------------------------------------------------------------------------*/
+    /**
+     * This method compares the user answer to the answer from the given data
+     * file.
+     * @param userAnswer The input string the user entered.
+     * @return True if answer is correct, false otherwise.
+     * @throws IOException Nothing.
+     */
+    public boolean checkAnswer(String userAnswer) {
+        String formattedText = userAnswer.toLowerCase();
         String formattedAnswer = answer.toLowerCase();
 
-        if (formattedText == "true" || formattedText == "t") {
+        if (formattedText.equals("true") || formattedText.equals("t")) {
             formattedText = "true";
-        } else if (formattedText == "false" || formattedText == "f") {
+        } else if (formattedText.equals("false") || formattedText.equals("f")) {
             formattedText = "false";
         }
 
-        if (formattedText == formattedAnswer) {
+        if (formattedText.equals(formattedAnswer)) {
             return true;
         } else {
             return false;

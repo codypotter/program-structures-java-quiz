@@ -1,19 +1,59 @@
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
+/**
+ * The Quiz program implements an application that
+ * quizzes the user with a given data file.
+ *
+ * The Quiz App class is the starting point for the quiz program.
+ * It handles the replay-ability functionality.
+ *
+ * @author  Cody Potter
+ * @version 1.0
+ * @since   2018-03-04
+ */
 public class QuizApp {
 
+    /*-----------------------------------------------------------------------------*/
+    /**
+     * This is the main entry point for the quiz app.
+     * @param args is the command line argument. It should be the name of
+     *             a data file.
+     * @throws Exception File not found.
+     */
     public static void main(String[] args) throws Exception {
-        boolean quit = false;
-
-        if (args[0] != "") {
-            Quiz quiz = new Quiz(args[0]);
-            quiz.deliverQuiz();
-        } else {
-            System.out.println("Invalid argument. Usage: java quiz [datafile] ");
+        try {runQuiz(args[0]);}
+        catch (FileNotFoundException error){
+            System.err.println("ERROR: " + error.getMessage());
         }
+    }
 
-        //while (!quit) {
-            //TODO run quiz
-        //}
+    /*-----------------------------------------------------------------------------*/
+    /**
+     * This method creates the quiz object and runs it until the user quits
+     * or gets all answers correct.
+     * @param arg the command line argument which is the name of
+     *            the data file.
+     * @throws Exception
+     */
+    private static void runQuiz(String arg) throws Exception {
+        if (arg != "") {
+            Quiz quiz = new Quiz(arg);
+            quiz.deliverQuiz(false);
 
+            while (quiz.getIncorrectCount() != 0) {
+                Scanner reader = new Scanner(System.in);
+                System.out.println("Do you want to try the questions you missed again? (y/n)");
+                String playAgainAnswer = reader.nextLine().toLowerCase();
+
+                if (playAgainAnswer.equals("y") || playAgainAnswer.equals("yes")) {
+                    quiz.deliverQuiz(true);
+                } else {
+                    System.out.println("Thanks for playing! Exiting...");
+                }
+            }
+        } else {
+            throw new FileNotFoundException("Invalid argument. Usage: java quiz [datafile] ");
+        }
     }
 }
