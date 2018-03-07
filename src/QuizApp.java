@@ -22,6 +22,11 @@ public class QuizApp {
      * @throws Exception File not found.
      */
     public static void main(String[] args) throws Exception {
+        if (args.length != 1) {
+            System.err.println("ERROR: usage - java QuizApp [datafile]");
+            System.err.println("Exiting...");
+            return;
+        }
         try {runQuiz(args[0]);}
         catch (FileNotFoundException error){
             System.err.println("ERROR: " + error.getMessage());
@@ -34,10 +39,10 @@ public class QuizApp {
      * or gets all answers correct.
      * @param arg the command line argument which is the name of
      *            the data file.
-     * @throws Exception
+     * @throws Exception Error running quiz.
      */
     private static void runQuiz(String arg) throws Exception {
-        if (arg != "") {
+        if (!arg.equals("")) {
             Quiz quiz = new Quiz(arg);
             quiz.deliverQuiz(false);
 
@@ -53,6 +58,7 @@ public class QuizApp {
                     outputScore(quiz);
                 } else {
                     System.out.println("Thanks for playing! Exiting...");
+                    break;
                 }
             }
         } else {

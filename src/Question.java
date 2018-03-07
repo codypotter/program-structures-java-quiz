@@ -1,4 +1,3 @@
-import java.io.IOException;
 
 /**
  * The Quiz program implements an application that
@@ -67,10 +66,6 @@ public abstract class Question {
             formattedText = "false";
         }
 
-        if (formattedText.equals(formattedAnswer)) {
-            return true;
-        } else {
-            return false;
-        }
+        return formattedText.equals(formattedAnswer);
     }
 }

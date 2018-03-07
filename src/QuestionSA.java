@@ -18,7 +18,7 @@ public class QuestionSA extends Question {
      * @param text the question text
      * @param number the question number
      */
-    public QuestionSA(String answer, String text, int number) {
+    QuestionSA(String answer, String text, int number) {
         this.answer = answer;
         this.text = text;
         this.correct = false;

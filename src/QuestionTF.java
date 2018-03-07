@@ -18,7 +18,7 @@ public class QuestionTF extends Question {
      * @param text the question text
      * @param number the question number
      */
-    public QuestionTF(String answer, String text, int number) {
+    QuestionTF(String answer, String text, int number) {
         this.answer = answer;
         this.text = text;
         this.correct = false;

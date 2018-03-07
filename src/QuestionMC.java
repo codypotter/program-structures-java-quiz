@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * The Quiz program implements an application that
@@ -13,7 +14,7 @@ import java.util.ArrayList;
  */
 public class QuestionMC extends Question {
 
-    private ArrayList<String> multipleChoices = new ArrayList<String>();
+    private ArrayList<String> multipleChoices = new ArrayList<>();
 
     /*-----------------------------------------------------------------------------*/
     /**
@@ -23,15 +24,19 @@ public class QuestionMC extends Question {
      * @param choices is the unformatted string of multiple choices.
      * @param number is the question number.
      */
-    public QuestionMC(String answer, String text, String choices, int number) {
+    QuestionMC(String answer, String text, String choices, int number) {
         this.answer = answer;
         this.text = text;
         this.number = number;
         String[] choiceArray = choices.split(":");
 
-        for (int i = 0; i < choiceArray.length; i++) {
-            multipleChoices.add(choiceArray[i]);
+        if (choiceArray.length <= 1) try {
+            throw new Exception("There aren't enough multiple choices for question: " + this.number);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+        multipleChoices.addAll(Arrays.asList(choiceArray));
         this.correct = false;
     }
 
@@ -43,8 +48,8 @@ public class QuestionMC extends Question {
     public void showQuestion() {
         char letter = 'a';
         System.out.println(number + ". " + text + "? (Multiple Choice)");
-        for (int i = 0; i < multipleChoices.size(); i++) {
-            System.out.println("    " + letter + ". " + multipleChoices.get(i));
+        for (String multipleChoice : multipleChoices) {
+            System.out.println("    " + letter + ". " + multipleChoice);
             letter++;
         }
     }

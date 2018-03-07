@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -24,14 +23,15 @@ public class Quiz {
     /**
      * This method generates a quiz from a data file.
      * @param dataFile is the name of the data file.
-     * @throws Exception is valid file.
      */
     Quiz(String dataFile) {
         this.questions = new ArrayList<>();
         filenameIsValid = checkFileName(dataFile);
 
         try {
-            this.loadQuestions(dataFile);
+            if (!this.loadQuestions(dataFile)) {
+                System.err.println("There was an error loading your questions.");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -44,7 +44,7 @@ public class Quiz {
      * @return true of load questions is successful, false otherwise.
      * @throws Exception invalid file name
      */
-    public boolean loadQuestions(String dataFile) throws Exception {
+    private boolean loadQuestions(String dataFile) throws Exception {
         ArrayList<String> lines;
 
         if (filenameIsValid) {
@@ -76,15 +76,15 @@ public class Quiz {
     public void deliverQuiz(boolean playAgain) {
         Scanner reader = new Scanner(System.in);
 
-        for (int i = 0; i < questions.size(); i++) {
-            if (playAgain && questions.get(i).isCorrect()) {
+        for (Question question : questions) {
+            if (playAgain && question.isCorrect()) {
                 continue;
             }
-            questions.get(i).showQuestion();
+            question.showQuestion();
             String userAnswer = reader.nextLine();
-            boolean isCorrect = questions.get(i).checkAnswer(userAnswer);
+            boolean isCorrect = question.checkAnswer(userAnswer);
             if (isCorrect) {
-                questions.get(i).markCorrect();
+                question.markCorrect();
                 System.out.println("Correct!");
             } else {
                 System.out.println("Sorry, that was incorrect.");
@@ -114,8 +114,7 @@ public class Quiz {
      */
     public int getIncorrectCount() {
         int correctCount = this.getCorrectCount();
-        int incorrectCount = this.totalQuestions() - correctCount;
-        return incorrectCount;
+        return this.totalQuestions() - correctCount;
     }
 
     /*-----------------------------------------------------------------------------*/
@@ -125,11 +124,7 @@ public class Quiz {
      * @return true of file name is valid, false otherwise
      */
     private boolean checkFileName(String dataFilename) {
-        if (dataFilename == "" || !dataFilename.endsWith(".txt")) {
-            return false;
-        } else {
-            return true;
-        }
+        return !dataFilename.equals("") && dataFilename.endsWith(".txt");
     }
 
     /*-----------------------------------------------------------------------------*/
@@ -140,11 +135,13 @@ public class Quiz {
      * @return a list of question objects
      */
     private ArrayList<Question> parseQuestionsFrom(ArrayList<String> questionLines) {
-        ArrayList<Question> tempQuestions = new ArrayList<Question>();
+        ArrayList<Question> tempQuestions = new ArrayList<>();
         int questionNumber = 0;
 
         for (int i = 0; i < questionLines.size(); i++) {
-            if (questionLines.get(i).startsWith("#") || questionLines.get(i).startsWith("//") || questionLines.get(i).trim().length() == 0) {
+            if (    questionLines.get(i).startsWith("#") ||
+                    questionLines.get(i).startsWith("//") ||
+                    questionLines.get(i).trim().length() == 0) {
                 continue;
             }
             questionNumber++;
@@ -154,7 +151,7 @@ public class Quiz {
             String multipleChoices;
             String[] tokens = questionLines.get(i).split("\\|");
 
-            if (tokens.length > 5) {
+            if (tokens.length > 5 || tokens.length < 4) {
                 System.err.println("ERROR: Bad formatting on line number: " + i);
                 continue;
             }
@@ -169,18 +166,22 @@ public class Quiz {
                 answerText = tokens[3];
             }
 
-            if (questionType.equals("MC")) {
-                Question tempQuestionMC = new QuestionMC(answerText, questionText, multipleChoices, questionNumber);
-                tempQuestions.add(tempQuestionMC);
-            } else if (questionType.equals("SA")) {
-                Question tempQuestionSA = new QuestionSA(answerText, questionText, questionNumber);
-                tempQuestions.add(tempQuestionSA);
-            } else if (questionType.equals("TF")) {
-                Question tempQuestionTF = new QuestionTF(answerText, questionText, questionNumber);
-                tempQuestions.add(tempQuestionTF);
-            } else {
-                System.err.println("ERROR: Bad formatting on line number: " + i);
-                continue;
+            switch (questionType) {
+                case "MC":
+                    Question tempQuestionMC = new QuestionMC(answerText, questionText, multipleChoices, questionNumber);
+                    tempQuestions.add(tempQuestionMC);
+                    break;
+                case "SA":
+                    Question tempQuestionSA = new QuestionSA(answerText, questionText, questionNumber);
+                    tempQuestions.add(tempQuestionSA);
+                    break;
+                case "TF":
+                    Question tempQuestionTF = new QuestionTF(answerText, questionText, questionNumber);
+                    tempQuestions.add(tempQuestionTF);
+                    break;
+                default:
+                    System.err.println("ERROR: Bad formatting on line number: " + i);
+                    break;
             }
         }
         return tempQuestions;
@@ -193,8 +194,8 @@ public class Quiz {
      * @param dataFilename the name of the data file
      * @return the list of strings from the file by line
      */
-    public ArrayList<String> openFile(String dataFilename) {
-        ArrayList<String> textData = new ArrayList<String>();
+    private ArrayList<String> openFile(String dataFilename) {
+        ArrayList<String> textData = new ArrayList<>();
         try {
             File file = new File(dataFilename);
             Scanner scanner = new Scanner(file);
@@ -204,7 +205,7 @@ public class Quiz {
             }
 
             scanner.close();
-        } catch (IOException e) {
+        } catch (FileNotFoundException e) {
             System.err.println(e.getMessage());
         }
         return textData;
