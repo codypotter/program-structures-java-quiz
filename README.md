@@ -4,7 +4,7 @@ This was a homework assignment for a program structures course at Clackamas Comm
 
 This command line application delivers a quiz from a user supplied data file.
 
-# Data File Format
+## Data File Format
 
 - Must be a .txt file.
 - Comments begin with a "#" or "//"
@@ -19,3 +19,12 @@ This command line application delivers a quiz from a user supplied data file.
 3. if TF or SA, answer
 3. if MC, a colon delimited list of possible answers
 4. if MC, the letter of the correct answer
+
+```
+#this is a comment
+//is is a different type of comment. The following line is blank
+    
+SA|2|What is the capital of Italy|Rome
+TF|1|The capital of Germany is Munich|False
+MC|1|What is the capital of Ukraine|Minsk:Kyiv:Warsaw:Chisinau|B
+```
