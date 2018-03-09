@@ -16,6 +16,6 @@ This command line application delivers a quiz from a user supplied data file.
 0. quesiton type
 1. question level
 2. question text
-3a. if TF or SA, answer
-3b. if MC, a colon delimited list of possible answers
-4b. if MC, the letter of the correct answer
+3. if TF or SA, answer
+3. if MC, a colon delimited list of possible answers
+4. if MC, the letter of the correct answer
